@@ -16,7 +16,7 @@ def num_bytes(b, kibi=True):
     while b > div - 1:
         b /= div
         i += 1
-    return f"{b} {t[i]}"
+    return f"{int(b*1000)/1000} {t[i]}"
 
 
 def mprint(*args, end="\n", comm=MPI.COMM_WORLD):

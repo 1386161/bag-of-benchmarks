@@ -10,14 +10,13 @@ from mpi4py import MPI
 KIBI = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']
 KILO = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
 
-
 def num_bytes(b, kibi=True):
     div, t = (1024, KIBI) if kibi else (1000, KILO)
     i = 0
-    while b > div:
+    while b > div - 1:
         b /= div
         i += 1
-    return f"{b:.3f}{t[i]}"
+    return f"{b} {t[i]}"
 
 
 def mprint(*args, end="\n", comm=MPI.COMM_WORLD):

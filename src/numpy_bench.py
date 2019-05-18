@@ -7,7 +7,7 @@ from timeit import Timer
 from mpi4py import MPI
 import numpy as np
 
-from .util_mpi4py import mprint
+from util_mpi4py import mprint
 
 #=============================================================================
 # Run benchmark

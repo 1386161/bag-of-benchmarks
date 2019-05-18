@@ -28,8 +28,8 @@ for s in sizes:
         t = time()-t0
         t_min = min(t, t_min)
     comm.Barrier()
-    
-    mprint("%15d | %12.3f | %10s/s" % (data.nbytes, t_min * 1000, num_bytes(data.nbytes/t_min)) )
+
+    mprint("%20s | %16.3f | %16s/s" % (num_bytes(data.nbytes), t_min * 1000, num_bytes(data.nbytes / t_min)))
 
 mprint("Benchmarking AllReduce performance on %d parallel MPI processes..." % comm.size)
 mprint("%20s | %16s | %16s" % ("Size (bytes)", "Time (msec)", "Bandwidth (MiBytes/s)"))

@@ -10,10 +10,12 @@ is overlayed with computation.
 """
 
 from __future__ import division
+
 import numpy as np
 from mpi4py import MPI
 from time import time
-from pylib.parutils import mprint
+
+from .util_mpi4py import mprint
 
 #=============================================================================#
 

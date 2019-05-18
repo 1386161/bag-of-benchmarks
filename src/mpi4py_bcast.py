@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 
 from __future__ import division
+
 from time import time
 from mpi4py import MPI
 import numpy as np
-from pylib.parutils import mprint
+
+from .util_mpi4py import mprint
 
 sizes = [ 2**n for n in range(1,24) ]
 runs  = 20

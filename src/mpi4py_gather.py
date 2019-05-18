@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
 from __future__ import division
+
 import numpy as np
 from mpi4py import MPI
-from pylib.parutils import mprint
+
+from .util_mpi4py import mprint
 
 #=============================================================================
 # Main

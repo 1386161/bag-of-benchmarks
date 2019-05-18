@@ -14,10 +14,10 @@ KILO = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
 def num_bytes(b, kibi=True):
     div, t = (1024, KIBI) if kibi else (1000, KILO)
     i = 0
-    while b < div:
+    while b > div:
         b /= div
         i += 1
-    return f"{b:f.4}{t[i]}"
+    return f"{b:.3f}{t[i]}"
 
 
 def mprint(*args, end="\n", comm=MPI.COMM_WORLD):

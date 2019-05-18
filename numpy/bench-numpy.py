@@ -3,15 +3,11 @@
 
 from __future__ import division
 
-import sys
-sys.path.insert(0, "../pylib")
-
 from timeit import Timer
-from time import time
 from mpi4py import MPI
 import numpy as np
 
-from parutils import pprint
+from pylib.parutils import mprint
 
 #=============================================================================
 # Run benchmark
@@ -99,14 +95,14 @@ elif options.dtype == "float64":
     dtype_str = "np.float64"
     dtype = np.float64
 else:
-    print "[FATAL] Unknown type %s" % options.dtype
+    print("[FATAL] Unknown type %s" % options.dtype)
 
 benches = options.benches.split(",")
 
 comm = MPI.COMM_WORLD
-pprint()
-pprint("Running %d parallel MPI processes: Results display collective performance" % comm.size)
-pprint()
+mprint()
+mprint("Running %d parallel MPI processes: Results display collective performance" % comm.size)
+mprint()
 
 # Calculate sizes
 nbytes = options.nbytes * 1024 * 1024
@@ -127,14 +123,14 @@ if 'O1' in benches:
 
     shape1 = (size,)
 
-    pprint()
-    pprint("O(n) function benchmarks")
-    pprint("========================")
-    pprint()
-    pprint(" Input arrays a, b and c are of dtype=%s, shape=%s, nbytes=%d MiB"  % (dtype_str, shape1, nbytes/1024/1024))
-    pprint()
-    pprint(" Code                      ||      GFLOP/s |   membw GiB/s |")
-    pprint("---------------------------++--------------+---------------+")
+    mprint()
+    mprint("O(n) function benchmarks")
+    mprint("========================")
+    mprint()
+    mprint(" Input arrays a, b and c are of dtype=%s, shape=%s, nbytes=%d MiB" % (dtype_str, shape1, nbytes / 1024 / 1024))
+    mprint()
+    mprint(" Code                      ||      GFLOP/s |   membw GiB/s |")
+    mprint("---------------------------++--------------+---------------+")
     
     subs = {
         'SHAPE'  : shape1,
@@ -147,7 +143,7 @@ if 'O1' in benches:
         gflops = comm.size * size * flopfac / t / 1e9
         membw = comm.size * nbytes * memfac / t / 1024 / 1024 /1024
 
-        pprint(" %25s ||    %9.3f |     %9.3f |" % (src, gflops, membw))
+        mprint(" %25s ||    %9.3f |     %9.3f |" % (src, gflops, membw))
         
 if 'O2' in benches:
 
@@ -162,15 +158,15 @@ if 'O2' in benches:
     shape1 = (N,)
     shape2 = (N, N)
 
-    pprint()
-    pprint("O(n^2) function benchmarks")
-    pprint("==========================")
-    pprint()
-    pprint(" Input arrays a, and b are of dtype=%s, shape=%s"  % (dtype_str, str(shape1)))
-    pprint(" Input arrays A, and B are of shape=%s"  % str(shape2))
-    pprint()
-    pprint(" Code                      ||    Time [ms] |      GFLOP/s |")
-    pprint("---------------------------++--------------+--------------+")
+    mprint()
+    mprint("O(n^2) function benchmarks")
+    mprint("==========================")
+    mprint()
+    mprint(" Input arrays a, and b are of dtype=%s, shape=%s" % (dtype_str, str(shape1)))
+    mprint(" Input arrays A, and B are of shape=%s" % str(shape2))
+    mprint()
+    mprint(" Code                      ||    Time [ms] |      GFLOP/s |")
+    mprint("---------------------------++--------------+--------------+")
 
     subs = {
         'SHAPE1'  : str(shape1),
@@ -183,5 +179,5 @@ if 'O2' in benches:
 
         gflops = comm.size * N**flopexp / t_np / 1e9
 
-        pprint(" %25s ||    %9.3f |    %9.3f |" % (src, t_np*1e3, gflops))
+        mprint(" %25s ||    %9.3f |    %9.3f |" % (src, t_np * 1e3, gflops))
 

@@ -10,15 +10,10 @@ is overlayed with computation.
 """
 
 from __future__ import division
-
-import sys
-sys.path.insert(0, "../pylib")
-
-import numpy as np 
+import numpy as np
 from mpi4py import MPI
 from time import time
-
-from parutils import pprint
+from pylib.parutils import mprint
 
 #=============================================================================#
 
@@ -43,9 +38,9 @@ if __name__ == "__main__":
     if mpi_rows*mpi_cols > comm.size:
         mpi_rows -= 1
 
-    pprint("="*78 )
-    pprint("Running %d parallel processes (ranks)" % (comm.size) )
-    pprint("Creating a %d x %d processor grid..." % (mpi_rows, mpi_cols) )
+    mprint("="*78 )
+    mprint("Running %d parallel processes (ranks)" % (comm.size) )
+    mprint("Creating a %d x %d processor grid..." % (mpi_rows, mpi_cols) )
 
     # Create a 2d cartesian grid with periodic boundary conditions
     ccomm = comm.Create_cart( (mpi_rows, mpi_cols), periods=(True, True), reorder=True)
@@ -69,7 +64,7 @@ if __name__ == "__main__":
     req = [None, None, None, None]
 
     t0 = time()
-    for r in xrange(mpi_rows-1):
+    for r in range(mpi_rows-1):
         # Initiate async. tile shift communication
         req[EAST]  = ccomm.Isend(tile_A , neigh[EAST])
         req[WEST]  = ccomm.Irecv(tile_A_, neigh[WEST])
@@ -99,10 +94,10 @@ if __name__ == "__main__":
         t_serial = time()-t0
     t_serial = comm.bcast(t_serial)
 
-    pprint(78*"=")
-    pprint("Computed (serial) %d x %d x %d in  %6.2f seconds" % (my_M, my_M, my_N, t_serial))
-    pprint(" ... expecting parallel computation to take %6.2f seconds" % (mpi_rows*mpi_rows*mpi_cols*t_serial / comm.size))
-    pprint("Computed (parallel) %d x %d x %d in        %6.2f seconds" % (mpi_rows*my_M, mpi_rows*my_M, mpi_cols*my_N, t_total))
+    mprint(78*"=")
+    mprint("Computed (serial) %d x %d x %d in  %6.2f seconds" % (my_M, my_M, my_N, t_serial))
+    mprint(" ... expecting parallel computation to take %6.2f seconds" % (mpi_rows*mpi_rows*mpi_cols*t_serial / comm.size))
+    mprint("Computed (parallel) %d x %d x %d in        %6.2f seconds" % (mpi_rows*my_M, mpi_rows*my_M, mpi_cols*my_N, t_total))
     
 
     comm.barrier()

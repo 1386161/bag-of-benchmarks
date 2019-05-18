@@ -6,6 +6,20 @@ from mpi4py import MPI
 #=============================================================================
 # I/O Utilities
 
+
+KIBI = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']
+KILO = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+
+
+def num_bytes(b, kibi=True):
+    div, t = (1024, KIBI) if kibi else (1000, KILO)
+    i = 0
+    while b < div:
+        b /= div
+        i += 1
+    return f"{b:f.4}{t[i]}"
+
+
 def mprint(*args, end="\n", comm=MPI.COMM_WORLD):
     """Print for MPI parallel programs: Only rank 0 prints *str*."""
     if comm.rank == 0:

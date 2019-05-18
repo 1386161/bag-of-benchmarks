@@ -5,7 +5,7 @@ from __future__ import division
 import numpy as np
 from mpi4py import MPI
 
-from util_mpi4py import mprint
+from util import mprint, num_bytes
 
 #=============================================================================
 # Main

@@ -7,7 +7,7 @@ from timeit import Timer
 from mpi4py import MPI
 import numpy as np
 
-from util_mpi4py import mprint
+from util import mprint, num_bytes
 
 #=============================================================================
 # Run benchmark
@@ -77,12 +77,9 @@ def bench_code(setup, src, runs=3, number=10):
 from optparse import OptionParser
 
 parser = OptionParser()
-parser.add_option("-n", "--nbytes", dest="nbytes", type="int", default=64,
-                    help="Size of input array in MiB [default=64]")
-parser.add_option("-t", "--dtype", dest="dtype", default="float64",
-                    help="Datatype to be benchmarked")
-parser.add_option("-b", "--benchmarks", dest="benches", default="O1,O2",
-                    help="Benchmarks to run (default: O1,O2)")
+parser.add_option("-n", "--nbytes", dest="nbytes", type="int", default=64, help="Size of input array in MiB [default=64]")
+parser.add_option("-t", "--dtype", dest="dtype", default="float64", help="Datatype to be benchmarked")
+parser.add_option("-b", "--benchmarks", dest="benches", default="O1,O2", help="Benchmarks to run (default: O1,O2)")
 
 
 (options, args) = parser.parse_args()
